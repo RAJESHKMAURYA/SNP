@@ -1,0 +1,41 @@
+SNPs algorithm to find the match and mismatch in the whole exome
+#!/usr/bin/perl ­w
+use warnings;
+$file1 = "chr1uc.fa";
+$file2 = "vcfref1uc.fa";
+$out = "output1.txt";
+open(FH3,'>',"$out") or die "Can't open $out for read: $!";
+open (FH1,'<',"$file1") or die "Can't open $file1 for read: $!";
+open (FH2,'<',"$file2") or die "Can't open $file2 for read: $!";
+print FH3 " Note: Match <­­>, Mismatch <==>\n";
+@a1=();
+@b1=();
+foreach $line (<FH1>)
+{
+@a=split('',$line);
+#chomp($line);
+push(@a1,@a);
+}
+foreach $line (<FH2>)
+{
+@b=split('',$line);
+#chomp($line);
+push(@b1,@b);
+}
+$l=scalar(@b1)­2;for($i=0;$i<=$l;++$i)
+{
+if($a1[$i] eq $b1[$i])
+{
+print FH3 "\n matching position ",$a1[$i]," <­­> ",$a1[$i], " at
+bp­",$i+1;
+}
+else
+{
+print FH3 "\n
+mismatch position ",$a1[$i]," <==> ",$b1[$i], "
+at bp­",$i+1;
+}
+}
+close FH1 or die "Cannot close $file1: $!";
+close FH2 or die "Cannot close $file2: $!";
+close FH3 or die "Cannot close $out: $!";
